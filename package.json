@@ -1,0 +1,34 @@
+{
+  "name": "@envato/cookie-consent",
+  "version": "0.0.1",
+  "description": "Some helper functions to deal with cookie-consent",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/envato/cookie-consent.git"
+  },
+  "author": "npm@envato.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/envato/cookie-consent/issues"
+  },
+  "homepage": "https://github.com/envato/cookie-consent#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.6",
+    "@types/js-cookie": "^2.2.1",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "js-cookie": "^2.2.0"
+  }
+}

@@ -1,0 +1,134 @@
+import * as mockCookie from 'js-cookie'
+
+import { Consent, consented, deferRun } from './index'
+
+const castedMockCookie = mockCookie as any
+
+jest.mock('js-cookie', () => ({
+  get: jest.fn(),
+  set: jest.fn()
+}))
+
+describe('consented()', () => {
+  describe('default', () => {
+    it('to false', () => {
+      expect(consented(Consent.statistics)).toBe(false)
+    })
+  })
+  describe('with consent', () => {
+    beforeAll(() => {
+      ;(window as any).Cookiebot = {
+        consent: {
+          statistics: true,
+          marketing: false
+        }
+      }
+    })
+    it('return true for consented', () => {
+      expect(consented(Consent.statistics)).toBe(true)
+    })
+    it('return false for disallowed category', () => {
+      expect(consented(Consent.marketing)).toBe(false)
+    })
+  })
+})
+
+describe('deferRun()', () => {
+  describe('cookiebot has no response', () => {
+    let intercomMock: any
+    beforeAll(() => {
+      intercomMock = jest.fn()
+      ;(window as any).Cookiebot = {
+        hasResponse: false,
+        consent: {
+          statistics: false
+        }
+      }
+    })
+    const bootIntercom = () => intercomMock
+    it('queues job and run later', () => {
+      deferRun(bootIntercom(), Consent.statistics)
+      expect(intercomMock).not.toBeCalled()
+      ;(window as any).Cookiebot.consent.statistics = true
+      window.dispatchEvent(new CustomEvent('CookiebotOnAccept'))
+      expect(intercomMock).toBeCalled()
+    })
+  })
+
+  describe('cookiebot has response and consent', () => {
+    let intercomMock: any
+    beforeAll(() => {
+      intercomMock = jest.fn()
+      ;(window as any).Cookiebot = {
+        hasResponse: true,
+        consent: {
+          statistics: true
+        }
+      }
+    })
+    const bootIntercom = () => intercomMock
+    it('runs job right away', () => {
+      deferRun(bootIntercom(), Consent.statistics)
+      expect(intercomMock).toBeCalled()
+    })
+  })
+
+  describe('cookiebot has response but no consent', () => {
+    let intercomMock: any
+    beforeAll(() => {
+      intercomMock = jest.fn()
+      ;(window as any).Cookiebot = {
+        hasResponse: true,
+        consent: {
+          statistics: false
+        }
+      }
+    })
+    const bootIntercom = () => intercomMock
+    it('runs job right away', () => {
+      deferRun(bootIntercom(), Consent.statistics)
+      expect(intercomMock).not.toBeCalled()
+      window.dispatchEvent(new CustomEvent('CookiebotOnAccept'))
+      expect(intercomMock).not.toBeCalled()
+    })
+  })
+
+  describe('when cookiebot is not loaded', () => {
+    beforeEach(() => {
+      castedMockCookie.get.mockReset()
+      castedMockCookie.set.mockReset()
+      ;(window as any).Cookiebot = null
+    })
+
+    it('return false when no cookieconsent cookie', () => {
+      castedMockCookie.get.mockImplementation(() => undefined)
+      expect(consented(Consent.statistics)).toBe(false)
+    })
+
+    it('return true for user outside of targeted area', () => {
+      castedMockCookie.get.mockImplementation(() => '-1')
+      expect(consented(Consent.statistics)).toBe(true)
+    })
+
+    it('return false if having issue parse cookie', () => {
+      castedMockCookie.get.mockImplementation(() => '{bad: "json}')
+      expect(consented(Consent.statistics)).toBe(false)
+    })
+
+    it('return true when user has consent', () => {
+      castedMockCookie.get.mockImplementation(
+        () =>
+          "{stamp:'xJB03YkuI2LicNIfQSnHClMF+YsNEHjsCyQgEKSFPW5UbP8sXHXM1g==',necessary:true,preferences:true,statistics:true,marketing:true,ver:1}"
+      )
+      expect(consented(Consent.statistics)).toBe(true)
+    })
+
+    it('return false when user has consent', () => {
+      castedMockCookie.get.mockImplementation(
+        () =>
+          "{stamp:'xJB03YkuI2LicNIfQSnHClMF+YsNEHjsCyQgEKSFPW5UbP8sXHXM1g==',necessary:true,preferences:true,statistics:false,marketing:true,ver:1}"
+      )
+      expect(consented(Consent.statistics)).toBe(false)
+    })
+  })
+})
