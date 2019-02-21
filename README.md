@@ -19,7 +19,7 @@ yarn add @envato/cookie-consent
 ```js
 import { Consent, consented, deferRun } from '@envato/cookie-consent'
 
-// Check for consent inline
+// Check for consent inline (note that on the initial page load this function may return false)
 if (consented(Consent.statistics)) {
   // Do something..
 }
@@ -28,6 +28,12 @@ if (consented(Consent.statistics)) {
 deferRun(() => {
   doSomething()
 }, Consent.marketing)
+
+// Types of consent we support:
+Consent.marketing
+Consent.statistics
+Consent.preferences
+Consent.necessary
 ```
 
 ### To publish
