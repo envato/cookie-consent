@@ -2,7 +2,7 @@
 
 ## Overview
 
-The npm package for cookie consent helpers.
+The npm package for cookie consent helpers. These functions are tighly coupled to usign the cookiebot api at the moment.
 
 ## Usage
 
