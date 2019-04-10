@@ -24,6 +24,9 @@ if (consented(Consent.statistics)) {
   // Do something..
 }
 
+// Manually parse and check the consent type in the CookieConsent cookie
+checkCookieConsent(Cookies.get('CookieConsent'), Consent.statistics)
+
 // Run function after consent
 deferRun(() => {
   doSomething()

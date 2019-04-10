@@ -43,6 +43,31 @@ if (typeof window !== 'undefined') {
   )
 }
 
+export const checkCookieConsent = (
+  CookieString: string | undefined,
+  consent: Consent
+) => {
+  if (!CookieString) {
+    return false
+  }
+
+  // For user outside of targeted area
+  if (CookieString === '-1') {
+    return true
+  }
+
+  try {
+    const parsedCookieConsent = JSON.parse(
+      CookieString.replace(/%2c/g, ',')
+        .replace(/'/g, '"')
+        .replace(/([{\[,])\s*([a-zA-Z0-9_]+?):/g, '$1"$2":')
+    )
+    return parsedCookieConsent && !!parsedCookieConsent[consent]
+  } catch (e) {
+    return false
+  }
+}
+
 export const consented = (consent: Consent) => {
   if (!(typeof window !== 'undefined')) {
     return false
@@ -57,24 +82,5 @@ export const consented = (consent: Consent) => {
 
   // manually parse cookie if Cookiebot is not avaiable
   const CookieConsent = Cookies.get('CookieConsent')
-
-  if (!CookieConsent) {
-    return false
-  }
-
-  // For user outside of targeted area
-  if (CookieConsent === '-1') {
-    return true
-  }
-
-  try {
-    const parsedCookieConsent = JSON.parse(
-      CookieConsent.replace(/%2c/g, ',')
-        .replace(/'/g, '"')
-        .replace(/([{\[,])\s*([a-zA-Z0-9_]+?):/g, '$1"$2":')
-    )
-    return parsedCookieConsent && !!parsedCookieConsent[consent]
-  } catch (e) {
-    return false
-  }
+  return checkCookieConsent(CookieConsent, consent)
 }
