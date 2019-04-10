@@ -43,21 +43,10 @@ if (typeof window !== 'undefined') {
   )
 }
 
-export const consented = (consent: Consent) => {
-  if (!(typeof window !== 'undefined')) {
-    return false
-  }
-
-  // when cookiebot is avaiable use it
-  if (
-    !!(window && (window as any).Cookiebot && (window as any).Cookiebot.consent)
-  ) {
-    return !!(window as any).Cookiebot.consent[consent]
-  }
-
-  // manually parse cookie if Cookiebot is not avaiable
-  const CookieConsent = Cookies.get('CookieConsent')
-
+export const parseCookieConsent = (
+  CookieConsent: string | undefined,
+  consent: Consent
+) => {
   if (!CookieConsent) {
     return false
   }
@@ -77,4 +66,21 @@ export const consented = (consent: Consent) => {
   } catch (e) {
     return false
   }
+}
+
+export const consented = (consent: Consent) => {
+  if (!(typeof window !== 'undefined')) {
+    return false
+  }
+
+  // when cookiebot is avaiable use it
+  if (
+    !!(window && (window as any).Cookiebot && (window as any).Cookiebot.consent)
+  ) {
+    return !!(window as any).Cookiebot.consent[consent]
+  }
+
+  // manually parse cookie if Cookiebot is not avaiable
+  const CookieConsent = Cookies.get('CookieConsent')
+  return parseCookieConsent(CookieConsent, consent)
 }
