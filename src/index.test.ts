@@ -1,6 +1,6 @@
 import * as mockCookie from 'js-cookie'
 
-import { Consent, consented, deferRun, parseCookieConsent } from './index'
+import { Consent, consented, deferRun, checkCookieConsent } from './index'
 
 const castedMockCookie = mockCookie as any
 
@@ -34,37 +34,37 @@ describe('consented()', () => {
 })
 
 describe('parseCookieConsent()', () => {
-  let CookieConsent: string | undefined
+  let CookieString: string | undefined
   describe('when CookieConsent is undefined', () => {
     it('returns false', () => {
-      expect(parseCookieConsent(CookieConsent, Consent.statistics)).toBe(false)
+      expect(checkCookieConsent(CookieString, Consent.statistics)).toBe(false)
     })
   })
   describe('when CookieConsent is found', () => {
     beforeEach(() => {
-      CookieConsent = undefined
+      CookieString = undefined
     })
 
     it('returns true for user outside of targeted area', () => {
-      CookieConsent = '-1'
-      expect(parseCookieConsent(CookieConsent, Consent.statistics)).toBe(true)
+      CookieString = '-1'
+      expect(checkCookieConsent(CookieString, Consent.statistics)).toBe(true)
     })
 
     it('returns false if issue parsing cookie', () => {
-      CookieConsent = '{bad: "json}'
-      expect(parseCookieConsent(CookieConsent, Consent.statistics)).toBe(false)
+      CookieString = '{bad: "json}'
+      expect(checkCookieConsent(CookieString, Consent.statistics)).toBe(false)
     })
 
     it('returns true if user has consented', () => {
-      CookieConsent =
+      CookieString =
         "{stamp:'X',necessary:true,preferences:false,statistics:true,marketing:true,ver:1}"
-      expect(parseCookieConsent(CookieConsent, Consent.statistics)).toBe(true)
+      expect(checkCookieConsent(CookieString, Consent.statistics)).toBe(true)
     })
 
     it('returns false if user has not consented', () => {
-      CookieConsent =
+      CookieString =
         "{stamp:'X',necessary:true,preferences:false,statistics:false,marketing:true,ver:1}"
-      expect(parseCookieConsent(CookieConsent, Consent.statistics)).toBe(false)
+      expect(checkCookieConsent(CookieString, Consent.statistics)).toBe(false)
     })
   })
 })
