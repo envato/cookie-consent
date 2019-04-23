@@ -9,7 +9,8 @@
     "prepublishOnly": "npm test && npm run build"
   },
   "files": [
-    "dist"
+    "dist",
+    "cookiebot.css"
   ],
   "repository": {
     "type": "git",
