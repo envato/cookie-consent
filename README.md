@@ -39,6 +39,10 @@ Consent.preferences
 Consent.necessary
 ```
 
+### Override CSS
+
+There is a `cookiebot.css` in the `src` directory, you can include it to partially override the default Cookiebot style.
+
 ### To publish
 
 Run
