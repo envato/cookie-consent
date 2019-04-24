@@ -1,6 +1,6 @@
 {
   "name": "@envato/cookie-consent",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Some helper functions to deal with cookie-consent",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "prepublishOnly": "npm test && npm run build"
   },
   "files": [
-    "dist"
+    "dist",
+    "cookiebot.css"
   ],
   "repository": {
     "type": "git",
