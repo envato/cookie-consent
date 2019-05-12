@@ -27,9 +27,12 @@ const execute = () => {
 }
 
 export const deferRun = (job: () => any, consent: Consent) => {
-  queue.push({ job, consent })
-  if ((window as any).Cookiebot && (window as any).Cookiebot.hasResponse) {
-    execute()
+  if (typeof window !== 'undefined') {
+    queue.push({ job, consent })
+
+    if ((window as any).Cookiebot && (window as any).Cookiebot.hasResponse) {
+      execute()
+    }
   }
 }
 
