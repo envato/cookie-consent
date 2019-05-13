@@ -15,7 +15,7 @@ export enum Consent {
 
 const execute = () => {
   while (queue.length) {
-    const cookiebotJob = queue.pop()
+    const cookiebotJob = queue.shift()
     if (cookiebotJob) {
       const { job, consent } = cookiebotJob
       // what to do if Cookiebot fail to load or blocked?
