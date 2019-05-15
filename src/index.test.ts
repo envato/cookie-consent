@@ -89,6 +89,16 @@ describe('deferRun()', () => {
       window.dispatchEvent(new CustomEvent('CookiebotOnAccept'))
       expect(intercomMock).toBeCalled()
     })
+
+    it('runs them in the right order', () => {
+      jest.clearAllMocks()
+      deferRun(() => intercomMock(1), Consent.statistics)
+      deferRun(() => intercomMock(2), Consent.statistics)
+      ;(window as any).Cookiebot.consent.statistics = true
+      window.dispatchEvent(new CustomEvent('CookiebotOnAccept'))
+      expect(intercomMock.mock.calls[0][0]).toEqual(1)
+      expect(intercomMock.mock.calls[1][0]).toEqual(2)
+    })
   })
 
   describe('cookiebot has response and consent', () => {
