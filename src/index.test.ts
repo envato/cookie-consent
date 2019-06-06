@@ -1,6 +1,12 @@
-import * as mockCookie from 'js-cookie'
+import mockCookie from 'js-cookie'
 
-import { Consent, consented, deferRun, checkCookieConsent } from './index'
+import {
+  Consent,
+  consented,
+  deferRun,
+  checkCookieConsent,
+  userHasOptedOutOfCookiesForCategory
+} from './index'
 
 const castedMockCookie = mockCookie as any
 
@@ -175,6 +181,99 @@ describe('deferRun()', () => {
           "{stamp:'xJB03YkuI2LicNIfQSnHClMF+YsNEHjsCyQgEKSFPW5UbP8sXHXM1g==',necessary:true,preferences:true,statistics:false,marketing:true,ver:1}"
       )
       expect(consented(Consent.statistics)).toBe(false)
+    })
+  })
+})
+
+describe.only('userHasOptedOutOfCookiesForCategory()', () => {
+  beforeEach(() => {
+    castedMockCookie.get.mockReset()
+    castedMockCookie.set.mockReset()
+    ;(window as any).Cookiebot = null
+  })
+
+  describe('default', () => {
+    it('to false', () => {
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
+    })
+  })
+
+  describe('with cookiebot loaded but no response', () => {
+    beforeAll(() => {
+      ;(window as any).Cookiebot = {
+        consent: {
+          statistics: false,
+          marketing: false
+        },
+        hasResponse: false
+      }
+    })
+    it('return false', () => {
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
+    })
+  })
+
+  describe('with cookiebot loaded and with response', () => {
+    beforeEach(() => {
+      ;(window as any).Cookiebot = {
+        consent: {
+          statistics: false,
+          marketing: false
+        },
+        hasResponse: true
+      }
+    })
+    describe('return false', () => {
+      it('return false', () => {
+        expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+          true
+        )
+      })
+    })
+  })
+
+  describe.only('with cookiebot not loaded', () => {
+    it('return false when no cookie', () => {
+      castedMockCookie.get.mockImplementation(() => undefined)
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
+    })
+
+    it('return false when outside or region', () => {
+      castedMockCookie.get.mockImplementation(() => '-1')
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
+    })
+
+    it('return false if having issue parse cookie', () => {
+      castedMockCookie.get.mockImplementation(() => '{bad: "json}')
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
+    })
+
+    it('return true when user has consent set to true', () => {
+      castedMockCookie.get.mockImplementation(
+        () =>
+          "{stamp:'xJB03YkuI2LicNIfQSnHClMF+YsNEHjsCyQgEKSFPW5UbP8sXHXM1g==',necessary:true,preferences:true,statistics:true,marketing:true,ver:1}"
+      )
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
+    })
+
+    it('return false when user has consent set to false', () => {
+      castedMockCookie.get.mockImplementation(
+        () =>
+          "{stamp:'xJB03YkuI2LicNIfQSnHClMF+YsNEHjsCyQgEKSFPW5UbP8sXHXM1g==',necessary:true,preferences:true,statistics:false,marketing:true,ver:1}"
+      )
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(true)
     })
   })
 })
