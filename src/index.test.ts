@@ -227,12 +227,8 @@ describe('userHasOptedOutOfCookiesForCategory()', () => {
         hasResponse: true
       }
     })
-    describe('return false', () => {
-      it('return false', () => {
-        expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
-          true
-        )
-      })
+    it('return false', () => {
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(true)
     })
   })
 
