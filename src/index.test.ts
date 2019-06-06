@@ -185,7 +185,7 @@ describe('deferRun()', () => {
   })
 })
 
-describe.only('userHasOptedOutOfCookiesForCategory()', () => {
+describe('userHasOptedOutOfCookiesForCategory()', () => {
   beforeEach(() => {
     castedMockCookie.get.mockReset()
     castedMockCookie.set.mockReset()
@@ -236,7 +236,7 @@ describe.only('userHasOptedOutOfCookiesForCategory()', () => {
     })
   })
 
-  describe.only('with cookiebot not loaded', () => {
+  describe('with cookiebot not loaded', () => {
     it('return false when no cookie', () => {
       castedMockCookie.get.mockImplementation(() => undefined)
       expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
