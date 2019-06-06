@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "jest ./src/*.test.ts",
     "prepublishOnly": "npm test && npm run build"
   },
   "files": [
