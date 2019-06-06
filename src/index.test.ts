@@ -217,7 +217,7 @@ describe('userHasOptedOutOfCookiesForCategory()', () => {
     })
   })
 
-  describe('with cookiebot loaded and with response', () => {
+  describe('with cookiebot loaded and with response to false', () => {
     beforeEach(() => {
       ;(window as any).Cookiebot = {
         consent: {
@@ -227,8 +227,25 @@ describe('userHasOptedOutOfCookiesForCategory()', () => {
         hasResponse: true
       }
     })
-    it('return false', () => {
+    it('return true', () => {
       expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(true)
+    })
+  })
+
+  describe('with cookiebot loaded and with response to true', () => {
+    beforeEach(() => {
+      ;(window as any).Cookiebot = {
+        consent: {
+          statistics: true,
+          marketing: false
+        },
+        hasResponse: true
+      }
+    })
+    it('return false', () => {
+      expect(userHasOptedOutOfCookiesForCategory(Consent.statistics)).toBe(
+        false
+      )
     })
   })
 
