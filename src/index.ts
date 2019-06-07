@@ -87,3 +87,42 @@ export const consented = (consent: Consent) => {
   const CookieConsent = Cookies.get('CookieConsent')
   return checkCookieConsent(CookieConsent, consent)
 }
+
+export const userHasOptedOutOfCookiesForCategory = (consent: Consent) => {
+  if (!(typeof window !== 'undefined')) {
+    return false
+  }
+
+  // when cookiebot is avaiable
+  if (
+    !!(window && (window as any).Cookiebot && (window as any).Cookiebot.consent)
+  ) {
+    if ((window as any).Cookiebot.hasResponse) {
+      return !(window as any).Cookiebot.consent[consent]
+    } else {
+      return false
+    }
+  }
+
+  // manually parse cookie if Cookiebot is not avaiable
+  const CookieConsent = Cookies.get('CookieConsent')
+  if (!CookieConsent) {
+    return false
+  }
+
+  // For user outside of targeted area
+  if (CookieConsent === '-1') {
+    return false
+  }
+
+  try {
+    const parsedCookieConsent = JSON.parse(
+      CookieConsent.replace(/%2c/g, ',')
+        .replace(/'/g, '"')
+        .replace(/([{\[,])\s*([a-zA-Z0-9_]+?):/g, '$1"$2":')
+    )
+    return parsedCookieConsent && !parsedCookieConsent[consent]
+  } catch (e) {
+    return false
+  }
+}
