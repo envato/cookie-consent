@@ -93,28 +93,15 @@ export const userHasOptedOutOfCookiesForCategory = (consent: Consent) => {
     return false
   }
 
-  // when cookiebot is avaiable and user has no response
+  // when cookiebot is avaiable
   if (
-    !!(
-      window &&
-      (window as any).Cookiebot &&
-      (window as any).Cookiebot.consent
-    ) &&
-    !(window as any).Cookiebot.hasResponse
+    !!(window && (window as any).Cookiebot && (window as any).Cookiebot.consent)
   ) {
-    return false
-  }
-
-  // when cookiebot is avaiable and use has response and use it
-  if (
-    !!(
-      window &&
-      (window as any).Cookiebot &&
-      (window as any).Cookiebot.consent
-    ) &&
-    (window as any).Cookiebot.hasResponse
-  ) {
-    return !(window as any).Cookiebot.consent[consent]
+    if ((window as any).Cookiebot.hasResponse) {
+      return !(window as any).Cookiebot.consent[consent]
+    } else {
+      return false
+    }
   }
 
   // manually parse cookie if Cookiebot is not avaiable
