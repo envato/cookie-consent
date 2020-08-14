@@ -4,6 +4,10 @@
   padding-top: 14px !important;
 }
 
+#CybotCookiebotDialog p {
+  padding: 0;
+}
+
 #CybotCookiebotDialogDetailBody,
 #CybotCookiebotDialogBody {
   max-width: 1152px !important;
