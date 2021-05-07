@@ -1,13 +1,9 @@
-interface CookieBotTarget {
+interface CookiebotEventTarget extends EventTarget {
   CookieConsentDialog: any
 }
 
-interface CookieBotEvent extends Event {
-  target: CookieBotTarget
-}
-
 window.addEventListener('CookiebotOnDialogDisplay', (event) => {
-  const cookieDialog = (event.target as CookieBotEvent)?.CookieConsentDialog
+  const cookieDialog = (<CookiebotEventTarget>event.target)?.CookieConsentDialog
     ?.DOM
 
   const observer = new MutationObserver((mutations) => {
