@@ -43,6 +43,10 @@ Consent.necessary
 
 There is a `cookiebot.css` in the module, you can include it to partially override the default Cookiebot style.
 
+### The CLS fix code snippet
+
+The file `clsFixSnippet.ts` contains a code snippet that fixes a [CLS](https://web.dev/cls/) issue caused by the cookiebot dialog. It's being exported as a string. When including the code in your app, make sure it runs _before_ the main cookiebot code.
+
 ### To publish
 
 Run
