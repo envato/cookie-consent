@@ -1,6 +1,6 @@
 {
   "name": "@envato/cookie-consent",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Some helper functions to deal with cookie-consent",
   "main": "dist/index.js",
   "engines": {
@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest ./src/*.test.ts",
-    "prepublishOnly": "npm test && npm run build"
+    "clean": "rm -rf ./dist",
+    "prepublishOnly": "npm test && npm run clean && npm run build"
   },
   "files": [
     "dist",
