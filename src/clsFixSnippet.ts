@@ -1,8 +1,8 @@
+// line 6 only applies for Rails/Turbo applications, it won't have any effect in non-Turbo apps
+
 export default `
   window.addEventListener("CookiebotOnDialogDisplay", (event) => {
     const cookieDialog = event.srcElement.CookieConsentDialog.DOM
-
-    // the line below is just for Rails/Turbo applications, but it won't have any effect in non-Turbo apps
     cookieDialog.dataset.turbo = false
 
     const observer = new MutationObserver((mutations) => {
