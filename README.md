@@ -51,11 +51,13 @@ If using a version >= 2.0.0, **you need to load the JS snippet on your applicati
 
 The file `clsFixSnippet.ts` contains the snippet. It's being exported as a string. When including the code in your app, make sure it runs _before_ the main cookiebot code.
 
-### To publish
+## Publishing
 
-Run
+Publishing is automated via GitHub Actions. Trigger with the following steps:
 
-```sh
-npm version (patch/minor/major)
-npm publish
-```
+1. Ensure the latest version is tagged in `main`. eg. `git tag -a v1.1.1 -m "1.1.1" && git push origin v1.1.1`
+1. Ensure the latest version is committed in the `package.json`. `"version": "1.1.1"`
+1. Create a release via the [Github Releases](https://github.com/envato/cookie-consent/releases)
+1. Verify the build in [Github Actions](https://github.com/envato/cookie-consent/actions)
+1. Verify the package published to [Github Packages](https://github.com/envato/cookie-consent/pkgs/npm/cookie-consent)
+1. Verify the package published to [NPM](https://www.npmjs.com/package/@envato/cookie-consent?activeTab=versions)
