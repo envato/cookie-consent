@@ -1,7 +1,12 @@
 name: Publish package to registries
 on:
   release:
-    types: [published]
+    types:
+      - released
+      - prereleased
+
+env:
+  RELEASE_TAG: ${{ github.event.action == 'prereleased' && 'alpha' || 'latest' }}
 
 jobs:
   release-github-registry:
@@ -17,14 +22,13 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@envato'
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --tag "$RELEASE_TAG"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release-npm-registry:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -33,6 +37,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@envato'
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --tag "$RELEASE_TAG"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
