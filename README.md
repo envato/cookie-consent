@@ -55,8 +55,8 @@ The file `clsFixSnippet.ts` contains the snippet. It's being exported as a strin
 
 Publishing is automated via GitHub Actions. Trigger with the following steps:
 
-1. Ensure the latest version is tagged in `main`. eg. `git tag -a v1.1.1 -m "1.1.1" && git push origin v1.1.1`
-1. Ensure the latest version is committed in the `package.json`. `"version": "1.1.1"`
+1. Ensure the latest version is committed in the `package.json`. eg. `"version": "1.1.1"`
+1. Ensure the latest version is tagged from `main`. eg. `git tag v1.1.1 && git push origin v1.1.1`
 1. Create a release via the [Github Releases](https://github.com/envato/cookie-consent/releases)
 1. Verify the build in [Github Actions](https://github.com/envato/cookie-consent/actions)
 1. Verify the package published to [Github Packages](https://github.com/envato/cookie-consent/pkgs/npm/cookie-consent)
