@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - directory: /
+    package-ecosystem: npm
+    schedule:
+      interval: monthly
+    versioning-strategy: lockfile-only
+    allow:
+      - dependency-type: all
+    groups:
+      javascript:
+        patterns:
+          - '*'
+    commit-message:
+      prefix: Dependabot
