@@ -8,8 +8,20 @@ updates:
     allow:
       - dependency-type: all
     groups:
-      javascript:
+      babel:
         patterns:
-          - '*'
+          - "@babel/*"
+          - "@types/babel*"
+          - "babel-plugin-*"
+      jest:
+        patterns:
+          - "@jest/*"
+          - "@types/jest"
+          - "jest*"
+          - "ts-jest*"
+      minor-patch:
+        update-types:
+          - minor
+          - patch
     commit-message:
       prefix: Dependabot
