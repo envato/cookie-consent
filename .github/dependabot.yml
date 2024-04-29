@@ -4,7 +4,6 @@ updates:
     package-ecosystem: npm
     schedule:
       interval: monthly
-    versioning-strategy: lockfile-only
     allow:
       - dependency-type: all
     groups:
