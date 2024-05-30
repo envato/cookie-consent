@@ -190,17 +190,3 @@ a.CybotCookiebotDialogDetailBodyContentTabsItem {
 .CybotCookiebotDialogDetailBodyContentTabsItemSelected {
   border-bottom: 3px solid hsl(0, 0%, 100%) !important;
 }
-
-/* The Cookiebot banner modifies the `top` attribute when it's loaded, causing
-// a large layout shift. We force `top: 0 !important` in CSS and intercept any
-// attempts to change the height of the banner using `translateY` instead,
-// which does not trigger CLS issues.
-
-// IMPORTANT: This CSS is dependent on the JS snippet. If you use this CSS without it,
-// the banner will remain hidden.
-*/
-
-#CybotCookiebotDialog {
-  top: 0 !important;
-  opacity: 0 !important;
-}
