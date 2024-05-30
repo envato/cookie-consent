@@ -1,6 +1,6 @@
 {
   "name": "@envato/cookie-consent",
-  "version": "2.0.1",
+  "version": "3.0.0.pre1",
   "description": "Some helper functions to deal with cookie-consent",
   "main": "dist/index.js",
   "engines": {
