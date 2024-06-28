@@ -1,9 +1,15 @@
-/* Layout */
-#CybotCookiebotDialogDetailFooter {
-  display: none;
+/* Cookiebot CMP branding */
+a#CybotCookiebotDialogPoweredbyCybot,
+div#CybotCookiebotDialogPoweredByText {
+  display: none !important;
 }
 
-/* Text content */
+/* Layout */
+#CybotCookiebotDialogDetailFooter {
+  display: none !important;
+}
+
+/* Cookie detail list */
 .CybotCookiebotDialogDetailBodyContentCookieTypeTableContainer {
   display: none !important;
 }
