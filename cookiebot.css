@@ -18,3 +18,13 @@ div#CybotCookiebotDialogPoweredByText {
 #CybotCookiebotDialogDetailBodyContentCookieContainerUnclassified {
   display: none !important;
 }
+
+/* Cookie category toggle */
+.CybotCookiebotDialogDetailBodyContentCookieContainerButton::before {
+  display: none !important;
+}
+
+/* Cookie count */
+.CybotCookiebotDialogDetailBulkConsentCount {
+  display: none !important;
+}
